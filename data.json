@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:30:10.028Z",
+ "updatedAt": "2026-10-07T21:30:39.476Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -45,7 +45,15 @@
   },
   {
    "emoji": "✅",
-   "items": [],
+   "items": [
+    {
+     "id": "muymg7qwyne7h",
+     "title": "Отчет приложение",
+     "url": "https://script.google.com/macros/s/AKfycbyWXpqsQ9NOw9udxZWhmQCDwg77LB5SyLDX4FTTSoRBSHSbmWInwu4oxcdBVtCd2BCrag/exec",
+     "desc": "Заполняем отчет за день и оплаты",
+     "group": ""
+    }
+   ],
    "order": 4,
    "title": "Отчетность",
    "type": "links",
