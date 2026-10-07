@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:29:35.705Z",
+ "updatedAt": "2026-10-07T21:30:04.621Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -44,7 +44,7 @@
    "id": "p8qulcthdn2be80zfhty"
   },
   {
-   "emoji": "🔗",
+   "emoji": "✅",
    "items": [
     {
      "desc": "",
@@ -62,7 +62,7 @@
     }
    ],
    "order": 4,
-   "title": "Ссылки — Таргетология",
+   "title": "Отчетность",
    "type": "links",
    "id": "links-targetology"
   },
