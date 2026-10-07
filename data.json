@@ -1,12 +1,12 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:33:22.308Z",
+ "updatedAt": "2026-10-07T21:33:25.666Z",
  "tabs": [
   {
    "builtin": "targetology",
    "emoji": "📞",
    "order": 1,
-   "title": "Скрипт звонок Даня",
+   "title": "Скрипт Даня",
    "type": "tool",
    "id": "script-targetology"
   },
