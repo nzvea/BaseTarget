@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:22:45.641Z",
+ "updatedAt": "2026-10-07T21:23:11.520Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -102,7 +102,15 @@
    "title": "Рассрочка",
    "emoji": "💰",
    "type": "links",
-   "items": []
+   "items": [
+    {
+     "id": "muym6m3yzm61b",
+     "title": "Альянс",
+     "url": "https://link.abc-cred.ru/ip_gribov_nn_new",
+     "desc": "Любой тариф, сумма заполняется клиентом",
+     "group": "Даня"
+    }
+   ]
   }
  ]
 }
