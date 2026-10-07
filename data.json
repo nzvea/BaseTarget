@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:23:11.520Z",
+ "updatedAt": "2026-10-07T21:24:27.213Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -108,6 +108,13 @@
      "title": "Альянс",
      "url": "https://link.abc-cred.ru/ip_gribov_nn_new",
      "desc": "Любой тариф, сумма заполняется клиентом",
+     "group": "Даня"
+    },
+    {
+     "id": "muym88ik8szmu",
+     "title": "ВИП - 129.900 руб.",
+     "url": "https://targetology.ter-pay.ru/d/01a0b3a0-337c-7029-8fbf-877a159feb44",
+     "desc": "Ter Pay",
      "group": "Даня"
     }
    ]
