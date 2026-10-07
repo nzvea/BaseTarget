@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:30:39.476Z",
+ "updatedAt": "2026-10-07T21:31:01.735Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -51,6 +51,13 @@
      "title": "Отчет приложение",
      "url": "https://script.google.com/macros/s/AKfycbyWXpqsQ9NOw9udxZWhmQCDwg77LB5SyLDX4FTTSoRBSHSbmWInwu4oxcdBVtCd2BCrag/exec",
      "desc": "Заполняем отчет за день и оплаты",
+     "group": ""
+    },
+    {
+     "id": "muymgox9ahdmg",
+     "title": "Отчет таблица",
+     "url": "https://docs.google.com/spreadsheets/d/1ESoRirjXhXp2vSnRgqg_r-uUAey_1We7KNbp9opzOvw/edit?gid=1816045916#gid=1816045916",
+     "desc": "Смотрим свою выручку, зп",
      "group": ""
     }
    ],
