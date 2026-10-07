@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:26:43.675Z",
+ "updatedAt": "2026-10-07T21:26:57.049Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -137,6 +137,13 @@
      "url": "https://target-student.ru/tarif-base",
      "desc": "Ссылка на гк: \nРассрочка Т-Банк, Сбер, Vanta, Сплит",
      "group": "Леша"
+    },
+    {
+     "id": "muymbg4o2f2xt",
+     "title": "ПРЕМИУМ - 98.100 руб.",
+     "url": "https://target-student.ru/tarif-premium",
+     "desc": "Ссылка на гк: \nРассрочка Т-Банк, Сбер, Vanta, Сплит",
+     "group": ""
     }
    ]
   }
