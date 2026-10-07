@@ -1,5 +1,6 @@
 {
  "version": 1,
+ "updatedAt": "2026-10-07T21:10:40.382Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -67,7 +68,15 @@
   },
   {
    "emoji": "💰",
-   "items": [],
+   "items": [
+    {
+     "id": "muylqiiocs6oc",
+     "title": "СТАРТ",
+     "url": "https://target-student.ru/tarif-start",
+     "desc": "Ссылка на гк 1 тариф за 24.900",
+     "group": "Леша"
+    }
+   ],
    "order": 5,
    "title": "Ссылки на оплаты",
    "type": "links",
