@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:30:04.621Z",
+ "updatedAt": "2026-10-07T21:30:08.763Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -46,13 +46,6 @@
   {
    "emoji": "✅",
    "items": [
-    {
-     "desc": "",
-     "group": "Для клиентов",
-     "id": "l1",
-     "title": "Лендинг Дани",
-     "url": "https://targetology.education/target_danmyas"
-    },
     {
      "desc": "Отчетность за день и оплаты",
      "group": "Для менеджеров",
