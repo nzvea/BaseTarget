@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:30:08.763Z",
+ "updatedAt": "2026-10-07T21:30:10.028Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -45,15 +45,7 @@
   },
   {
    "emoji": "✅",
-   "items": [
-    {
-     "desc": "Отчетность за день и оплаты",
-     "group": "Для менеджеров",
-     "id": "muepkd2ik2dr8",
-     "title": "Отчетность",
-     "url": "https://script.google.com/macros/s/AKfycbyWXpqsQ9NOw9udxZWhmQCDwg77LB5SyLDX4FTTSoRBSHSbmWInwu4oxcdBVtCd2BCrag/exec"
-    }
-   ],
+   "items": [],
    "order": 4,
    "title": "Отчетность",
    "type": "links",
