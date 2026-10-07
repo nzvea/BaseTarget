@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:26:59.746Z",
+ "updatedAt": "2026-10-07T21:28:07.697Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -89,6 +89,13 @@
      "url": "https://target-student.ru/tarif-premium",
      "desc": "Ссылка на гк:\nПолная оплата",
      "group": "Леша"
+    },
+    {
+     "id": "muymcymremia0",
+     "title": "ЛАЙТ - 79.000 руб.",
+     "url": "",
+     "desc": "Ссылка на гк: Полная оплата",
+     "group": "Даня"
     }
    ],
    "order": 5,
