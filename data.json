@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:31:01.735Z",
+ "updatedAt": "2026-10-07T21:31:46.203Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -59,6 +59,13 @@
      "url": "https://docs.google.com/spreadsheets/d/1ESoRirjXhXp2vSnRgqg_r-uUAey_1We7KNbp9opzOvw/edit?gid=1816045916#gid=1816045916",
      "desc": "Смотрим свою выручку, зп",
      "group": ""
+    },
+    {
+     "id": "muymhn8q5ebpd",
+     "title": "Расписание",
+     "url": "https://docs.google.com/spreadsheets/d/1ESoRirjXhXp2vSnRgqg_r-uUAey_1We7KNbp9opzOvw/edit?gid=476725856#gid=476725856",
+     "desc": "Заполняем график и выходные (НА НЕДЕЛЮ ВПЕРЕД!)",
+     "group": "Основные инструменты"
     }
    ],
    "order": 4,
