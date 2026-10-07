@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:33:31.752Z",
+ "updatedAt": "2026-10-07T21:49:04.324Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -182,6 +182,14 @@
    "title": "Скрипт сообщения",
    "type": "messages",
    "id": "p8qulcthdn2be80zfhty"
+  },
+  {
+   "id": "muyn3x5e78nve",
+   "order": 8,
+   "title": "Скрипт продаж — Таргетология",
+   "emoji": "🎯",
+   "type": "tool",
+   "html": ""
   }
  ]
 }
