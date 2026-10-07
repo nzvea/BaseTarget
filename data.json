@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:53:25.680Z",
+ "updatedAt": "2026-10-07T21:53:39.309Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -182,6 +182,14 @@
    "title": "Скрипт сообщения",
    "type": "messages",
    "id": "p8qulcthdn2be80zfhty"
+  },
+  {
+   "id": "muyn9tbhr1v1y",
+   "order": 8,
+   "title": "Расписание",
+   "emoji": "📝",
+   "type": "tool",
+   "html": ""
   }
  ]
 }
