@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:14:23.202Z",
+ "updatedAt": "2026-10-07T21:19:10.681Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -81,6 +81,13 @@
      "title": "БАЗА",
      "url": "https://target-student.ru/tarif-base",
      "desc": "Ссылка на гк 2 тариф за 49.900",
+     "group": "Леша"
+    },
+    {
+     "id": "muym1ga0gzjl4",
+     "title": "ПРЕМИУМ - 98.100 руб.",
+     "url": "https://target-student.ru/tarif-premium",
+     "desc": "Ссылка на гк:\nПолная оплата\nРассрочка Vanta\nРассрочка Т-банк\nРассрочка Сбер\nРассрочка РР\nЯндекс.Сплит",
      "group": "Леша"
     }
    ],
