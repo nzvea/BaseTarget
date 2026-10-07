@@ -221,7 +221,7 @@ let mode = 'loading';     // 'site' | 'error'
 let canWrite = false;     // true только когда подключён GitHub-токен
 let gh = null;            // {owner, repo, branch, token}
 let sha = null;           // версия data.json в GitHub
-let saveTimer = null, saving = Promise.resolve(), pending = false;
+let saveTimer = null, saving = Promise.resolve(), pending = false, lastErr = '', savedAt = 0;
 const ui = { filter:{}, search:{}, q:'' };
 
 /* ================= UTILS ================= */
@@ -269,7 +269,11 @@ function setStatus(){
   const s=$('#status');
   if(mode==='loading'){ s.className='status'; s.textContent='Загрузка…'; return; }
   if(mode==='error'){ s.className='status loc'; s.innerHTML='<b>● Нет данных</b> · проверь data.json'; return; }
-  if(canWrite){ s.className='status ok'; s.innerHTML = pending ? '<b>● Сохраняю…</b>' : '<b>● Редактор</b> · изменения уходят на сайт'; }
+  if(canWrite){
+    if(lastErr){ s.className='status loc'; s.innerHTML='<b style="color:var(--red)">● Не сохранено</b><br>'+esc(lastErr); return; }
+    s.className='status ok';
+    s.innerHTML = pending ? '<b>● Сохраняю…</b>' : savedAt ? '<b>● Сохранено ✓</b> · команда увидит после обновления страницы' : '<b>● Редактор</b>';
+  }
   else { s.className='status'; s.innerHTML='<b>● Просмотр</b>'; }
 }
 const b64e = str => { const bytes=new TextEncoder().encode(str); let bin=''; for(let i=0;i<bytes.length;i+=0x8000) bin+=String.fromCharCode.apply(null, bytes.subarray(i,i+0x8000)); return btoa(bin); };
@@ -282,11 +286,13 @@ function guessRepo(){
 }
 function loadGh(){ try{ return JSON.parse(localStorage.getItem(GH_KEY)||'null'); }catch(e){ return null; } }
 function saveGh(v){ try{ v?localStorage.setItem(GH_KEY,JSON.stringify(v)):localStorage.removeItem(GH_KEY); }catch(e){} }
+function tfetch(url, opts={}, ms=20000){ const c=new AbortController(); const t=setTimeout(()=>c.abort(),ms);
+  return fetch(url,{...opts,signal:c.signal}).catch(e=>{ throw new Error(e.name==='AbortError'?'GitHub не отвечает — проверь интернет':'Нет связи с GitHub'); }).finally(()=>clearTimeout(t)); }
 const apiUrl = () => `https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/data.json?ref=${encodeURIComponent(gh.branch||'main')}`;
 const apiHeaders = () => ({ 'Authorization':'Bearer '+gh.token, 'Accept':'application/vnd.github+json' });
 
 async function fetchFromApi(){
-  const r = await fetch(apiUrl()+'&t='+Date.now(), { headers: apiHeaders(), cache:'no-store' });
+  const r = await tfetch(apiUrl()+'&t='+Date.now(), { headers: apiHeaders(), cache:'no-store' });
   if(r.status===401||r.status===403) throw new Error('Токен не подходит или нет прав на репозиторий');
   if(r.status===404) throw new Error('Не найден data.json в '+gh.owner+'/'+gh.repo);
   if(!r.ok) throw new Error('GitHub ответил '+r.status);
@@ -294,7 +300,15 @@ async function fetchFromApi(){
   return JSON.parse(b64d(j.content));
 }
 async function fetchPublic(){
-  const r = await fetch('data.json?t='+Date.now(), { cache:'no-store' });
+  const g = guessRepo();
+  if(g.owner && g.repo){
+    try{
+      const r = await tfetch(`https://api.github.com/repos/${g.owner}/${g.repo}/contents/data.json?t=${Date.now()}`,
+        { headers:{ 'Accept':'application/vnd.github.raw+json' }, cache:'no-store' }, 8000);
+      if(r.ok) return JSON.parse(await r.text());
+    }catch(e){}
+  }
+  const r = await tfetch('data.json?t='+Date.now(), { cache:'no-store' });
   if(!r.ok) throw new Error('data.json не найден');
   return r.json();
 }
@@ -316,18 +330,20 @@ async function doSave(attempt=0){
   const body = snapshot();
   if(body.length > MAX_DOC){ toast('База стала слишком большой — раздели крупные инструменты'); pending=false; setStatus(); return; }
   try{
-    const r = await fetch(`https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/data.json`, {
+    const r = await tfetch(`https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/data.json`, {
       method:'PUT', headers:{...apiHeaders(),'Content-Type':'application/json'},
       body: JSON.stringify({ message:'База МОП: обновление', content:b64e(body), sha, branch:gh.branch||'main' })
     });
     if(r.status===409 || r.status===422){
-      if(attempt<2){ const cur = await fetch(apiUrl()+'&t='+Date.now(),{headers:apiHeaders(),cache:'no-store'}).then(x=>x.json()); sha=cur.sha; return doSave(attempt+1); }
+      if(attempt<2){ const cur = await tfetch(apiUrl()+'&t='+Date.now(),{headers:apiHeaders(),cache:'no-store'}).then(x=>x.json()); sha=cur.sha; return doSave(attempt+1); }
       throw new Error('Конфликт версий — обнови страницу');
     }
+    if(r.status===401) throw new Error('Токен недействителен — подключи редактор заново');
+    if(r.status===403||r.status===404) throw new Error('У токена нет права записи: Contents → Read and write для этого репозитория');
     if(!r.ok) throw new Error('GitHub ответил '+r.status);
     const j = await r.json(); sha = j.content.sha;
-    pending=false; setStatus();
-  }catch(e){ pending=false; setStatus(); toast('Не сохранилось: '+e.message); }
+    pending=false; lastErr=''; savedAt=Date.now(); setStatus();
+  }catch(e){ pending=false; lastErr=e.message; setStatus(); toast('Не сохранилось: '+e.message); }
 }
 function persist(){ scheduleSave(false); }
 async function removeTab(id){
@@ -675,6 +691,7 @@ $('#importFile').onchange=()=>{
   r.readAsText(file);
 };
 
+window.addEventListener('beforeunload',e=>{ if(pending){ e.preventDefault(); e.returnValue=''; } });
 init();
 </script>
 </body>
