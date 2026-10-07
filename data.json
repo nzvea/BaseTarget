@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:25:22.539Z",
+ "updatedAt": "2026-10-07T21:26:12.944Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -123,6 +123,13 @@
      "url": "https://targetology.ter-pay.ru/d/01a0afaa-842a-71e2-a56d-b5bd5c1b42d2",
      "desc": "Ter Pay",
      "group": "Даня"
+    },
+    {
+     "id": "muymai3jbpq15",
+     "title": "СТАРТ - 24.900 руб.",
+     "url": "https://target-student.ru/tarif-start",
+     "desc": "Ссылка на гк: \nРассрочка Т-Банк, Сбер, Vanta, Сплит",
+     "group": "Леша"
     }
    ]
   }
