@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:19:51.749Z",
+ "updatedAt": "2026-10-07T21:21:29.479Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -92,7 +92,7 @@
     }
    ],
    "order": 5,
-   "title": "Ссылки на оплаты",
+   "title": "Оплата картой",
    "type": "links",
    "id": "42hi2q2mlb4yedlsq1ts"
   }
