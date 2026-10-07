@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Скрипт МОП — Таргетология</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0f1e; --panel:#111830; --panel-2:#17213f; --line:#243056;
+  --blue:#2b7cf6; --blue-soft:rgba(43,124,246,.14);
+  --mark:#eefa5c; --mark-ink:#0a0f1e;
+  --green:#34d27b; --red:#ff5c5c; --amber:#ffb23e;
+  --t1:#f2f5ff; --t2:#a3aed0; --t3:#66729a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Onest',system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--t1);font-size:14.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit}
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+
+/* sidebar */
+.side{background:var(--panel);border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.brand{padding:22px 20px 16px;border-bottom:1px solid var(--line)}
+.brand .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:17px}
+.brand .pill{width:26px;height:14px;border-radius:10px;background:var(--blue);position:relative}
+.brand .pill::after{content:"";position:absolute;right:2px;top:2px;width:10px;height:10px;border-radius:50%;background:#fff}
+.brand .sub{font-size:12px;color:var(--t3);margin-top:4px}
+.prog{margin:14px 20px 4px;height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--mark);transition:width .25s}
+.prog-l{font-size:11.5px;color:var(--t3);padding:4px 20px 10px}
+.nav{padding:4px 0 16px}
+.nav-g{font-size:11px;color:var(--t3);padding:14px 20px 6px;font-weight:600}
+.step{display:flex;align-items:center;gap:10px;padding:8px 20px;cursor:pointer;border-left:3px solid transparent;color:var(--t2);font-size:13.5px}
+.step:hover{background:var(--blue-soft);color:var(--t1)}
+.step.on{border-left-color:var(--mark);background:var(--blue-soft);color:var(--t1);font-weight:600}
+.step .n{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--t3);flex-shrink:0}
+.step.on .n{background:var(--mark);border-color:var(--mark);color:var(--mark-ink)}
+.step.done .n{background:var(--green);border-color:var(--green);color:#06210f}
+
+/* main */
+.main{padding:0 40px 60px;max-width:900px;width:100%}
+.topbar{position:sticky;top:0;z-index:5;background:linear-gradient(var(--bg) 70%,transparent);padding:18px 0 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chip-i{font-size:12.5px;background:var(--panel);border:1px solid var(--line);border-radius:30px;padding:5px 12px;color:var(--t2)}
+.chip-i b{color:var(--t1);font-weight:600}
+.chip-i.rec{border-color:var(--mark);color:var(--mark)}
+.chip-i.rec b{color:var(--mark)}
+
+.panel{display:none}
+.panel.on{display:block}
+.h{margin:8px 0 22px}
+.h .k{font-size:12px;color:var(--blue);font-weight:700}
+.h h1{font-size:26px;font-weight:800;letter-spacing:-.01em;line-height:1.2;margin:2px 0 6px}
+.h p{color:var(--t2);font-size:14px;max-width:620px}
+
+/* script card */
+.say{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:12px;padding:16px 18px;margin-bottom:14px;position:relative}
+.say.green{border-left-color:var(--green)}
+.say.amber{border-left-color:var(--amber)}
+.say.red{border-left-color:var(--red)}
+.say .lbl{font-size:12px;font-weight:700;color:var(--t2);margin-bottom:8px;padding-right:100px}
+.say .tx{white-space:pre-wrap;font-size:15px;line-height:1.7}
+.say .tx mark{background:var(--mark);color:var(--mark-ink);padding:0 3px;border-radius:3px}
+.say .tx .ph{color:var(--amber);font-style:italic}
+.say .tx .note{color:var(--t3);font-style:italic;font-size:13.5px}
+.cp{position:absolute;top:12px;right:12px;font-size:12px;background:var(--panel-2);color:var(--t2);border:1px solid var(--line);border-radius:7px;padding:4px 11px;cursor:pointer}
+.cp:hover{color:var(--t1);border-color:var(--blue)}
+.cp.ok{color:var(--green);border-color:var(--green)}
+
+.tip{background:rgba(255,178,62,.09);border:1px solid rgba(255,178,62,.28);color:#ffd08a;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px}
+
+/* form */
+.q{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.q .qt{font-weight:600;font-size:14.5px;margin-bottom:10px}
+.q .qt small{display:block;color:var(--t3);font-weight:400;font-size:12.5px;margin-top:2px}
+.in,.sel,.ta{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--t1);font-size:14px;outline:none}
+.in:focus,.sel:focus,.ta:focus{border-color:var(--blue)}
+.ta{min-height:64px;resize:vertical;line-height:1.55}
+.sel option{background:var(--panel-2)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;border:1px solid var(--line);background:var(--bg);color:var(--t2);border-radius:30px;padding:6px 13px;cursor:pointer;user-select:none}
+.chip:hover{border-color:var(--blue);color:var(--t1)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* summary */
+.sum{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.sum-h{padding:12px 18px;background:var(--panel-2);border-bottom:1px solid var(--line);font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.sum-b{padding:6px 18px}
+.row{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.row:last-child{border-bottom:none}
+.row .l{color:var(--t3);font-size:12.5px;padding-top:2px}
+.empty{color:var(--t3);padding:14px 0;font-size:13.5px}
+
+.rec{border:1px solid var(--mark);border-radius:14px;padding:18px 20px;margin-bottom:16px;background:linear-gradient(135deg,rgba(238,250,92,.07),rgba(43,124,246,.08))}
+.rec .k{font-size:12px;color:var(--mark);font-weight:700}
+.rec .nm{font-size:21px;font-weight:800;margin:4px 0 2px}
+.rec .pr{font-size:14px;color:var(--t2);margin-bottom:10px}
+.rec ul{list-style:none}
+.rec li{padding:4px 0 4px 20px;position:relative;font-size:14px;color:var(--t1)}
+.rec li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+.rec .alt{margin-top:12px;font-size:13px;color:var(--t2)}
+
+/* tariffs */
+.tars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.tar{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;position:relative;display:flex;flex-direction:column}
+.tar:hover{border-color:var(--blue)}
+.tar.sel{border-color:var(--mark)}
+.tar .seats{position:absolute;top:-10px;right:12px;background:var(--mark);color:var(--mark-ink);font-size:11px;font-weight:800;border-radius:20px;padding:2px 9px}
+.tar h3{font-size:14.5px;font-weight:800;line-height:1.3;margin-bottom:4px}
+.tar .inc{font-size:12.5px;color:var(--green);margin-bottom:10px}
+.tar .old{font-size:12.5px;color:var(--t3);text-decoration:line-through}
+.tar .new{font-size:23px;font-weight:800;color:var(--t1);line-height:1.1;margin-bottom:10px}
+.tar ul{list-style:none;border-top:1px solid var(--line);padding-top:10px;margin-top:auto}
+.tar li{font-size:12.5px;color:var(--t2);padding:3px 0 3px 14px;position:relative;line-height:1.45}
+.tar li::before{content:"•";position:absolute;left:2px;color:var(--blue)}
+.tar li.hl{color:var(--t1);font-weight:600}
+
+/* objections */
+.obj{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.obj-h{padding:13px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14.5px}
+.obj-h:hover{background:var(--panel-2)}
+.obj-h span{color:var(--t3);transition:transform .2s}
+.obj.open .obj-h span{transform:rotate(180deg)}
+.obj-b{display:none;padding:0 16px 16px;border-top:1px solid var(--line)}
+.obj.open .obj-b{display:block}
+.obj-b .tx{white-space:pre-wrap;padding-top:12px;font-size:14.5px;line-height:1.7}
+.obj-b .tx mark{background:var(--mark);color:var(--mark-ink);padding:0 3px;border-radius:3px}
+.obj-b .tx .note{color:var(--t3);font-style:italic;font-size:13.5px}
+.obj-b .cp{position:static;margin-top:10px}
+
+/* reference */
+.ref-sec{margin-bottom:26px}
+.ref-sec h2{font-size:17px;font-weight:800;margin-bottom:10px}
+.ref-sec h2 mark{background:var(--mark);color:var(--mark-ink);padding:0 4px;border-radius:3px}
+.mods{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mod{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.mod .t{font-weight:700;font-size:13.5px;margin-bottom:8px;color:var(--mark)}
+.mod ol{padding-left:18px;font-size:13px;color:var(--t2)}
+.mod ol li{padding:2px 0}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:13.5px;color:var(--t2)}
+.fact b{display:block;color:var(--t1);font-size:15px;margin-bottom:4px}
+.path{counter-reset:p;list-style:none}
+.path li{counter-increment:p;position:relative;padding:8px 0 8px 40px;border-bottom:1px solid var(--line);font-size:14px;color:var(--t2)}
+.path li::before{content:counter(p);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--mark);color:var(--mark-ink);font-weight:800;display:grid;place-items:center;font-size:13px}
+.path li b{color:var(--t1)}
+
+.btns{display:flex;gap:10px;margin-top:24px;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.b{border-radius:10px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--t2)}
+.b:hover{color:var(--t1);border-color:var(--t2)}
+.b.p{background:var(--blue);border-color:var(--blue);color:#fff}
+.b.p:hover{filter:brightness(1.1)}
+.b.r{margin-left:auto;color:var(--red);border-color:rgba(255,92,92,.35)}
+
+:focus-visible{outline:2px solid var(--mark);outline-offset:2px}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{position:static;height:auto}
+  .nav{display:flex;flex-wrap:wrap;gap:4px;padding:8px 12px}
+  .nav-g{display:none}
+  .step{border-left:none;border-radius:8px;padding:6px 10px}
+  .main{padding:0 16px 40px}
+  .tars,.mods,.facts,.grid2{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="side">
+  <div class="brand">
+    <div class="logo"><span class="pill"></span>таргетология</div>
+    <div class="sub">Скрипт МОП · Даня Мясников и Коляс</div>
+  </div>
+  <div class="prog"><i id="progBar"></i></div>
+  <div class="prog-l" id="progLbl">Шаг 1 из 10</div>
+  <nav class="nav" id="nav"></nav>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="chip-i">Клиент: <b id="tbName">—</b></div>
+    <div class="chip-i">Срочность: <b id="tbUrg">—</b></div>
+    <div class="chip-i rec">Рекомендация: <b id="tbRec">заполни квалификацию</b></div>
+  </div>
+
+  <!-- 0 ПРИВЕТСТВИЕ -->
+  <section class="panel on" data-step="0">
+    <div class="h"><div class="k">Шаг 1</div><h1>Приветствие</h1><p>Вбей имена — скрипты по всему звонку подставятся автоматически.</p></div>
+    <div class="grid2">
+      <div class="q"><div class="qt">Имя клиента</div><input class="in" data-f="name" placeholder="Например, Алексей"></div>
+      <div class="q"><div class="qt">Твоё имя</div><input class="in" data-f="manager" placeholder="Например, Денис"></div>
+    </div>
+    <div class="say"><div class="lbl">Говоришь</div><button class="cp">Копировать</button><div class="tx" id="s_hello"></div></div>
+    <div class="tip">Дождись подтверждения. Если анкету не помнит — коротко напомни: программа по таргету от Дани Мясникова и Коляса.</div>
+  </section>
+
+  <!-- 1 ПРОГРАММИРОВАНИЕ -->
+  <section class="panel" data-step="1">
+    <div class="h"><div class="k">Шаг 2</div><h1>Программирование</h1><p>Берёшь управление разговором и получаешь согласие на вопросы.</p></div>
+    <div class="say"><div class="lbl">Говоришь</div><button class="cp">Копировать</button><div class="tx" id="s_prog"></div></div>
+    <div class="tip">Нужно явное «да». Без него клиент будет сам задавать вопросы про цену — и ты потеряешь управление.</div>
+  </section>
+
+  <!-- 2 КВАЛИФИКАЦИЯ -->
+  <section class="panel" data-step="2">
+    <div class="h"><div class="k">Шаг 3</div><h1>Квалификация</h1><p>Задавай по одному вопросу. Записывай словами клиента — они понадобятся в презентации.</p></div>
+
+    <div class="q"><div class="qt">Расскажи, чем сейчас занимаешься?</div>
+      <select class="sel" data-f="occ">
+        <option value="">— выбери —</option>
+        <option value="employee">Работает по найму</option>
+        <option value="freelance">Фриланс / самозанятый</option>
+        <option value="business">Свой бизнес</option>
+        <option value="student">Учится / без постоянной работы</option>
+        <option value="maternity">В декрете / дома</option>
+      </select>
+      <textarea class="ta" data-f="occNote" style="margin-top:8px" placeholder="Кем именно, сколько зарабатывает сейчас (если сказал)"></textarea>
+    </div>
+
+    <div class="q"><div class="qt">Какой у тебя опыт в таргете / рекламе?</div>
+      <select class="sel" data-f="exp">
+        <option value="">— выбери —</option>
+        <option value="zero">Нет опыта, с нуля</option>
+        <option value="self">Смотрел бесплатные уроки, пробовал сам</option>
+        <option value="some">Были первые клиенты / проекты</option>
+        <option value="pro">Уже работает таргетологом</option>
+      </select>
+    </div>
+
+    <div class="q"><div class="qt">Почему решил оставить анкету именно сейчас?</div>
+      <textarea class="ta" data-f="whyNow" placeholder="Триггер: надоела работа, увидел сторис Дани, нужны деньги..."></textarea>
+    </div>
+
+    <div class="q"><div class="qt">Какой результат хочешь получить от программы?</div>
+      <textarea class="ta" data-f="want" placeholder="Его словами: «выйти на 100к и уйти с работы»"></textarea>
+    </div>
+  </section>
+
+  <!-- 3 ТОЧКА А -->
+  <section class="panel" data-step="3">
+    <div class="h"><div class="k">Шаг 4</div><h1>Точка А</h1><p>Выявляешь боли. Отмечай всё, что звучит — презентация соберётся из этих пунктов.</p></div>
+
+    <div class="q"><div class="qt">А что сейчас мешает тебе прийти к этому результату?<small>Можно отметить несколько</small></div>
+      <div class="chips" data-chips="pains">
+        <div class="chip" data-v="salary">Не устраивает зарплата</div>
+        <div class="chip" data-v="boss">Устал от начальства</div>
+        <div class="chip" data-v="time">Нет времени на жизнь</div>
+        <div class="chip" data-v="knowledge">Нет знаний, не знает с чего начать</div>
+        <div class="chip" data-v="clients">Не может найти клиентов</div>
+        <div class="chip" data-v="unstable">Нестабильный / потолок дохода</div>
+        <div class="chip" data-v="system">Нет системы, всё хаотично</div>
+        <div class="chip" data-v="fear">Неуверенность, страх не справиться</div>
+      </div>
+    </div>
+
+    <div class="q"><div class="qt">Что делаешь для решения этой проблемы?</div>
+      <textarea class="ta" data-f="doing" placeholder="Ничего / ищет курсы / смотрит ютуб..."></textarea>
+    </div>
+    <div class="q"><div class="qt">Что уже пробовал делать самостоятельно для развития в направлении?</div>
+      <textarea class="ta" data-f="tried" placeholder="Бесплатные уроки, другой курс, запускал рекламу себе..."></textarea>
+    </div>
+    <div class="q"><div class="qt">Что сейчас получается, а что не получается?</div>
+      <textarea class="ta" data-f="works" placeholder="Получается: ... / Не получается: ..."></textarea>
+    </div>
+  </section>
+
+  <!-- 4 ТОЧКА Б -->
+  <section class="panel" data-step="4">
+    <div class="h"><div class="k">Шаг 5</div><h1>Точка Б</h1><p>Фиксируешь цель в цифрах и эмоцию. Это главный рычаг на цене.</p></div>
+
+    <div class="q"><div class="qt">А какой результат для тебя будет хорошим после прохождения программы?</div>
+      <div class="grid2">
+        <select class="sel" data-f="income">
+          <option value="">— доход в месяц —</option>
+          <option value="100">До 100 тыс.</option>
+          <option value="200">100–200 тыс.</option>
+          <option value="300">200–300 тыс.</option>
+          <option value="500">300 тыс.+</option>
+        </select>
+        <select class="sel" data-f="goal">
+          <option value="">— формат цели —</option>
+          <option value="extra">Доп. доход к основной работе</option>
+          <option value="switch">Полностью уйти в профессию</option>
+          <option value="agency">Своё агентство / команда</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="q"><div class="qt">Что изменится для тебя, если придёшь к этому результату?</div>
+      <textarea class="ta" data-f="change" placeholder="Его словами: «уволюсь, буду больше с семьёй, поеду в отпуск»"></textarea>
+    </div>
+
+    <div class="q"><div class="qt">Насколько для тебя сейчас актуально решить эту задачу?</div>
+      <select class="sel" data-f="urg">
+        <option value="">— выбери —</option>
+        <option value="hot">Очень актуально, готов начинать</option>
+        <option value="warm">Актуально, но есть сомнения</option>
+        <option value="cold">Пока присматривается</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- 5 РЕЗЮМЕ + ТАРИФ -->
+  <section class="panel" data-step="5">
+    <div class="h"><div class="k">Шаг 6</div><h1>Резюме и тариф</h1><p>Проговори резюме клиенту — он должен сказать «да, всё так». Рекомендация тарифа — для тебя, вслух не называй.</p></div>
+    <div class="say green"><div class="lbl">Резюмируешь вслух</div><button class="cp">Копировать</button><div class="tx" id="s_resume"></div></div>
+    <div class="sum"><div class="sum-h">Карточка клиента<span style="font-size:12px;color:var(--t3);font-weight:500">собирается автоматически</span></div><div class="sum-b" id="sumBody"></div></div>
+    <div class="rec" id="recBox"></div>
+  </section>
+
+  <!-- 6 ПРЕЗЕНТАЦИЯ -->
+  <section class="panel" data-step="6">
+    <div class="h"><div class="k">Шаг 7</div><h1>Презентация</h1><p>Собрана из болей клиента. Не читай подряд — после каждого блока возвращай человека в диалог.</p></div>
+    <div id="presBox"></div>
+  </section>
+
+  <!-- 7 ПРЕДЗАКРЫТИЕ + ЦЕНА -->
+  <section class="panel" data-step="7">
+    <div class="h"><div class="k">Шаг 8</div><h1>Предзакрытие и цена</h1><p>Сначала согласие с программой, потом — самый дорогой тариф как якорь.</p></div>
+    <div class="say green"><div class="lbl">Предзакрытие</div><button class="cp">Копировать</button><div class="tx" id="s_preclose"></div></div>
+    <div class="say amber"><div class="lbl">Презентация цены — начинаешь с ВИП</div><button class="cp">Копировать</button><div class="tx" id="s_anchor"></div></div>
+    <div class="tip">Назвал цену — молчи 3–5 секунд. Если молчит клиент: «Всё услышал? Связь не пропала?» Потом: «Как тебе цена?»</div>
+    <div class="say"><div class="lbl">Если ВИП не заходит — переход на рекомендованный</div><button class="cp">Копировать</button><div class="tx" id="s_down"></div></div>
+    <div style="font-size:13px;color:var(--t2);margin:18px 0 10px;font-weight:600">Тариф, на котором закрываешь (кликни)</div>
+    <div class="tars" id="tars"></div>
+  </section>
+
+  <!-- 8 ВОЗРАЖЕНИЯ -->
+  <section class="panel" data-step="8">
+    <div class="h"><div class="k">Шаг 9</div><h1>Возражения</h1><p>Сначала уточняющий вопрос — потом ответ. За «подумаю» всегда стоит конкретная причина.</p></div>
+    <div id="objBox"></div>
+  </section>
+
+  <!-- 9 ЗАКРЫТИЕ -->
+  <section class="panel" data-step="9">
+    <div class="h"><div class="k">Шаг 10</div><h1>Закрытие</h1><p>Конкретный срок оплаты и итог звонка для таблицы потенциалов.</p></div>
+    <div class="grid2">
+      <div class="q"><div class="qt">Способ оплаты</div>
+        <select class="sel" data-f="pay"><option value="card">Картой</option><option value="split">Рассрочка</option></select></div>
+      <div class="q"><div class="qt">Срок оплаты</div>
+        <select class="sel" data-f="deadline">
+          <option value="now">Прямо сейчас на звонке</option>
+          <option value="tonight">Сегодня вечером</option>
+          <option value="tomorrow">Завтра до 12:00</option>
+          <option value="custom">Другой срок</option>
+        </select></div>
+    </div>
+    <div class="say green"><div class="lbl">Закрываешь</div><button class="cp">Копировать</button><div class="tx" id="s_close"></div></div>
+    <div class="say"><div class="lbl">Итог звонка — в таблицу потенциалов / чат</div><button class="cp">Копировать</button><div class="tx" id="s_crm"></div></div>
+    <div class="btns"><button class="b r" id="resetBtn">Новый клиент</button></div>
+  </section>
+
+  <!-- 10 СПРАВОЧНИК -->
+  <section class="panel" data-step="10">
+    <div class="h"><div class="k">Справочник</div><h1>Всё о продукте</h1><p>Держи открытым во время звонка — факты для ответов на вопросы.</p></div>
+
+    <div class="ref-sec"><h2>Кому <mark>подходит</mark> курс</h2>
+      <div class="facts">
+        <div class="fact"><b>Недоволен зарплатой</b>Возможный доход от 100 тыс. в первый месяц работы и выход на 1 млн в месяц за год работы.</div>
+        <div class="fact"><b>Устал от начальства</b>Таргетолог сам себе начальник — выбирает проекты и с кем работать.</div>
+        <div class="fact"><b>Нет времени на личную жизнь</b>Удалённая профессия: сам планируешь день и занятость под желаемый доход.</div>
+        <div class="fact"><b>Рынок растёт</b>6 лет назад в России было ~4 млн бизнесов, сейчас ~7 млн. Всем нужна реклама.</div>
+      </div>
+    </div>
+
+    <div class="ref-sec"><h2>Программа</h2>
+      <div class="mods">
+        <div class="mod"><div class="t">Теория — 6 модулей</div><ol><li>Погружаюсь в digital</li><li>Маркетинг, который приносит деньги</li><li>Бизнес-процессы и коммуникация</li><li>Исследование и анализ</li><li>Стратегия и креатив</li><li>Инструменты таргетолога</li></ol></div>
+        <div class="mod"><div class="t">Практика — 4 модуля</div><ol><li>Мои первые клиенты и заявки</li><li>Продаю услуги и строю личный бренд</li><li>Работаю с реальными проектами и получаю обратную связь</li><li>Анализирую и масштабирую</li></ol></div>
+        <div class="mod"><div class="t">Продвинутый — только ВИП</div><ol><li>Масштабируюсь</li><li>Создаю агентство</li><li>Нетворкинг и личный бренд</li></ol><p style="font-size:12.5px;color:var(--t3);margin-top:8px">Цель уровня — агентство и доход до 500 тыс.</p></div>
+      </div>
+    </div>
+
+    <div class="ref-sec"><h2>Что входит в комьюнити</h2>
+      <div class="facts">
+        <div class="fact"><b>50+ часов контента</b>Теория и практика на платформе.</div>
+        <div class="fact"><b>Кураторы-практики</b>Действующие таргетологи с доходом 100–200 тыс. в месяц.</div>
+        <div class="fact"><b>Быстрая проверка ДЗ</b>На платформе, с обратной связью.</div>
+        <div class="fact"><b>Чат и мероприятия</b>Чат со студентами и кураторами, онлайн- и офлайн-встречи со спикерами.</div>
+      </div>
+    </div>
+
+    <div class="ref-sec"><h2>Эксперты</h2>
+      <div class="facts">
+        <div class="fact"><b>Коляс · @the.kolyas</b>Сооснователь агентства digital.BUFF. Практикующий таргетолог с доходом 500к+ с 2019 года. MBA Executive. Благодарность от Госдумы за вклад в онлайн-образование.</div>
+        <div class="fact"><b>Данил Мясников · @dan_myas</b>Блогер, 700к+ подписчиков. В таргете в 2021–2022 вышел на доход 200к+. Обучил 3000+ студентов. В 2025 вернулся в профессию.</div>
+      </div>
+    </div>
+
+    <div class="ref-sec"><h2>Агентство digital.BUFF</h2>
+      <div class="facts">
+        <div class="fact"><b>550+ проектов</b>В разных нишах за 5 лет.</div>
+        <div class="fact"><b>200+ млн ₽</b>Рекламного бюджета клиентов реализовано.</div>
+        <div class="fact"><b>10 000+ студентов</b>Обучено в проекте «Таргетология».</div>
+        <div class="fact"><b>Партнёр Синергии</b>Факультет интернет-маркетинга. Спикеры Инсталогии, ОбучаемБизнесу.РФ, «Бизнес-уикенда».</div>
+      </div>
+    </div>
+
+    <div class="ref-sec"><h2>Путь студента</h2>
+      <ol class="path">
+        <li><b>Начал интересоваться</b> таргетингом и купил обучение.</li>
+        <li><b>Проходит курс</b>, разобрался в рекламном кабинете, ищет первого клиента для тренировки.</li>
+        <li><b>Нашёл клиента</b>, который заплатил символические деньги и выделил бюджет.</li>
+        <li><b>Приступил к работе</b>: подготовительные этапы с кураторами, запуск первой рекламы.</li>
+        <li><b>Первые результаты</b> устроили клиента — он порекомендовал другу.</li>
+        <li><b>Не страшно брать ещё</b>: +1–2 клиента, чек ×2, опыта и уверенности ×5.</li>
+      </ol>
+    </div>
+
+    <div class="ref-sec"><h2>Результат обучения</h2>
+      <div class="facts">
+        <div class="fact"><b>Через 2–3 месяца</b>Доход от 100 000 ₽, работая на себя.</div>
+        <div class="fact"><b>Профессия из любой точки мира</b>Удалённая работа.</div>
+        <div class="fact"><b>Портфолио</b>Опыт на реальных проектах.</div>
+        <div class="fact"><b>Сертификат</b>Таргетолог в Яндекс, ВК и Авито с подтверждением компетенций.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="btns" id="navBtns">
+    <button class="b" id="prevBtn">← Назад</button>
+    <button class="b p" id="nextBtn">Далее →</button>
+  </div>
+</main>
+</div>
+
+<script>
+/* ===== ДАННЫЕ ТАРИФОВ — места обновляй здесь ===== */
+const TARIFFS = [
+  { id:0, name:'Лайт', short:'Лайт', old:'158 000 ₽', price:'79 000 ₽', income:'~100 тыс.', seats:'осталось 1 из 20',
+    feats:['Обучение 2 месяца','Доступ к платформе 3 месяца','Все модули теории и практики','Сертификат'],
+    hl:[] },
+  { id:1, name:'Наставничество с куратором', short:'Куратор', old:'184 000 ₽', price:'92 000 ₽', income:'~200 тыс.', seats:'осталось 3 из 20',
+    feats:['Обучение 3 месяца','Доступ к платформе 6 месяцев','Все модули теории и практики','Разборы резюме, кейсов и ситуаций с клиентами 4 раза в месяц','Биржа клиентов','Лучшие 3 получат клиентов','Лучшие 10 — в потенциальные таргетологи агентства Коляса','Сертификат'],
+    hl:[3,4,5,6] },
+  { id:2, name:'Наставничество ВИП с Колясом и Даней', short:'ВИП', old:'258 000 ₽', price:'129 000 ₽', income:'~300 тыс.', seats:'осталось 2 из 10',
+    feats:['Обучение 3 месяца','Доступ к платформе 12 месяцев','Теория, практика и вся программа продвинутого уровня','Разборы 4 раза в месяц + биржа клиентов','Личная работа с Колясом как с куратором','Модуль по созданию агентства + чаты для поиска сотрудников','Уроки Коляса по сборке команды, ТЗ и договорам','Офлайн-встреча с Даней','Лучшие 6 получат клиентов','Лучших 10 Коляс возьмёт в таргетологи своего агентства','Сертификат ВИП'],
+    hl:[4,7,8,9] }
+];
+
+const MAP = {
+  occ:{employee:'работает по найму',freelance:'фриланс / самозанятый',business:'свой бизнес',student:'учится / без постоянной работы',maternity:'в декрете / дома'},
+  exp:{zero:'нет опыта, с нуля',self:'пробовал сам по бесплатным материалам',some:'были первые клиенты',pro:'уже работает таргетологом'},
+  income:{'100':'до 100 тыс. в месяц','200':'100–200 тыс. в месяц','300':'200–300 тыс. в месяц','500':'300 тыс.+ в месяц'},
+  goal:{extra:'доп. доход к основной работе',switch:'полностью уйти в профессию',agency:'своё агентство / команда'},
+  urg:{hot:'🔥 горячий',warm:'🌡 тёплый, есть сомнения',cold:'❄️ присматривается'},
+  pains:{salary:'не устраивает зарплата',boss:'устал от начальства',time:'нет времени на жизнь',knowledge:'нет знаний, не знает с чего начать',clients:'не может найти клиентов',unstable:'нестабильный доход / потолок',system:'нет системы',fear:'неуверенность, страх не справиться'}
+};
+
+/* ===== ФРАЗЫ ДЛЯ ЖИВОЙ РЕЧИ (согласованы по падежам) ===== */
+const PHR = {
+  occ:{employee:'Сейчас ты работаешь по найму',freelance:'Сейчас ты на фрилансе',business:'У тебя свой бизнес',student:'Сейчас ты учишься или без постоянной работы',maternity:'Сейчас ты в декрете'},
+  exp:{zero:'в таргете начинаешь с нуля',self:'в таргет уже пробовал зайти сам — по бесплатным материалам',some:'у тебя уже были первые клиенты в таргете',pro:'ты уже работаешь таргетологом'},
+  pains:{salary:'не устраивает зарплата',boss:'надоело работать на начальника',time:'не хватает времени на жизнь',knowledge:'непонятно, с чего начать',clients:'сложно найти клиентов',unstable:'доход нестабильный и упёрся в потолок',system:'нет системы — всё делается хаотично',fear:'есть страх, что не получится'},
+  income:{'100':'выйти на доход до 100 тысяч в месяц','200':'выйти на 100–200 тысяч в месяц','300':'выйти на 200–300 тысяч в месяц','500':'выйти на 300 тысяч в месяц и выше'},
+  goal:{extra:'как дополнительный доход к основной работе',switch:'и полностью уйти в профессию',agency:'и со временем собрать своё агентство'}
+};
+
+/* цитата из заметки МОПа: без точки в конце, в кавычках */
+const Q = t => { t=(t||'').trim().replace(/[.!\s]+$/,''); if(!t) return ''; return '«'+esc(t.charAt(0).toLowerCase()+t.slice(1))+'»'; };
+const joinRu = a => a.length<=1 ? (a[0]||'') : a.slice(0,-1).join(', ')+' и '+a[a.length-1];
+
+/* распознавание болей из свободного текста */
+const KW = {
+  salary:/зарплат|мало плат|мало получ|денег не хват|копейк|оклад/i,
+  boss:/начальн|босс|руковод|на дядю/i,
+  time:/нет времени|не хватает времени|график|на семью|с детьми|выгоран|устал/i,
+  knowledge:/с чего начать|не понимаю|не разбираюсь|нет знаний|с нуля|не знаю как/i,
+  clients:/клиент|заказ|заявк/i,
+  unstable:/нестабил|потол|скач|то густо/i,
+  system:/хаос|систем|бессистем|разброс/i,
+  fear:/страш|боюсь|не уверен|неуверен|страх|сомнева|не получится/i
+};
+const notesText = () => ['whyNow','want','doing','tried','works','change','occNote'].map(k=>v(k)).join(' ');
+function detectedPains(){ const t=notesText(); return Object.keys(KW).filter(k=>KW[k].test(t) && !S.pains.includes(k)); }
+const allPains = () => [...S.pains, ...detectedPains()];
+
+/* чем программа отличается от того, что уже пробовал */
+const TRIED_FIX = [
+  {re:/бесплат|ютуб|youtube|видео|блог|статьи|рилс|тикток/i, t:'Бесплатные материалы дают кусочки теории, но не дают главного — <mark>обратной связи по твоей работе и путь к клиентам</mark>. Здесь кураторы-практики проверяют ДЗ, а в практике ты работаешь с реальными проектами.'},
+  {re:/курс|обучени|школ|марафон|интенсив/i, t:'Отличие от обычного курса — <mark>практика на реальных проектах и выход на клиентов</mark>: модули про первые заявки и продажу услуг, биржа клиентов, а лучших студентов обеспечиваем клиентами сами. Плюс учат люди из действующего агентства, а не теоретики.'},
+  {re:/сам|себе|запуска|пробовал настр|кабинет/i, t:'Когда запускаешь сам, непонятно, где ошибка — в аудитории, креативе или настройке. Здесь <mark>твои кейсы разбирают 4 раза в месяц</mark>, и ошибки ловятся до того, как сливают бюджет клиента.'}
+];
+
+/* что не получается → какой модуль закрывает */
+const WORKS_FIX = [
+  {re:/клиент|заказ|заявк/i, t:'модули <mark>«Мои первые клиенты и заявки»</mark> и <mark>«Продаю услуги и строю личный бренд»</mark> + биржа клиентов'},
+  {re:/креатив|объявлен|текст|баннер/i, t:'модуль <mark>«Стратегия и креатив»</mark>'},
+  {re:/кабинет|настро|пиксел|метрик|директ|вк|авито/i, t:'модуль <mark>«Инструменты таргетолога»</mark> — Яндекс, ВК и Авито'},
+  {re:/продат|продаж|цен|чек|договор|переговор/i, t:'модули <mark>«Бизнес-процессы и коммуникация»</mark> и <mark>«Продаю услуги»</mark>'},
+  {re:/аналит|цифр|окупа|результат|лид/i, t:'модули <mark>«Исследование и анализ»</mark> и <mark>«Анализирую и масштабирую»</mark>'},
+  {re:/дисципл|лень|бросаю|не доделы|мотивац|время/i, t:'кураторы и проверка ДЗ — тебя ведут по шагам, а не оставляют один на один с уроками'}
+];
+
+/* что закрывает продукт под каждую боль */
+const PAIN_PITCH = {
+  salary:{t:'Про деньги',s:'Ты говоришь, что не устраивает зарплата. Смотри: таргетолог работает на себя, и наша программа — это пошаговый путь к доходу <mark>от 100 000 ₽ в месяц уже через 2–3 месяца</mark>. Дальше потолка нет — всё зависит от количества клиентов и чека.'},
+  boss:{t:'Про свободу',s:'Ты сказал, что устал от начальства. Таргетолог — сам себе начальник: <mark>ты выбираешь, за какие проекты браться и с кем работать</mark>. Никто не говорит тебе, во сколько приходить.'},
+  time:{t:'Про время',s:'Про время: это <mark>удалённая профессия</mark>. Ты сам планируешь рабочий день и занятость — под тот доход, который хочешь. Работать можно из любой точки мира.'},
+  knowledge:{t:'Про знания',s:'Ты сказал, что не знаешь, с чего начать. Поэтому программа начинается с фундамента: <mark>6 модулей теории</mark> — от погружения в digital и маркетинга, который приносит деньги, до стратегии, креативов и инструментов таргетолога. Больше 50 часов контента, и ДЗ проверяют кураторы — действующие таргетологи.'},
+  clients:{t:'Про клиентов',s:'Главная боль — клиенты, и это решает практика: модули <mark>«Мои первые клиенты и заявки»</mark> и <mark>«Продаю услуги и строю личный бренд»</mark>. Плюс в наставничестве есть <mark>биржа клиентов</mark>, а лучших студентов мы обеспечиваем клиентами сами.'},
+  unstable:{t:'Про стабильный рост',s:'Чтобы доход не скакал, в практике есть модуль <mark>«Анализирую и масштабирую»</mark>. А продвинутый уровень — это выход на своё агентство и доход <mark>до 500 000 ₽</mark>.'},
+  system:{t:'Про систему',s:'Сейчас всё хаотично — а здесь пошаговый путь: теория → практика → реальные проекты → масштаб. На каждом этапе тебя ведут кураторы, и есть <mark>разборы твоих кейсов 4 раза в месяц</mark>.'},
+  fear:{t:'Про уверенность',s:'Страх «не справлюсь» — нормально. Но ты будешь не один: кураторы с доходом 100–200 тыс., общий чат, разборы 4 раза в месяц. Наши студенты проходят путь от «только купил курс» до «беру ещё клиентов и поднимаю чек в 2 раза» — <mark>уверенности становится в 5 раз больше</mark>.'}
+};
+
+const S = {pains:[], pay:'card', deadline:'now'};
+let step = 0, chosenTariff = null;
+const STEPS = ['Приветствие','Программирование','Квалификация','Точка А','Точка Б','Резюме и тариф','Презентация','Предзакрытие и цена','Возражения','Закрытие','Справочник'];
+const TOTAL = 10;
+
+const esc = s => String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const v = k => (S[k]||'').toString().trim();
+const ph = t => `<span class="ph">[${t}]</span>`;
+const nm = () => v('name') ? esc(v('name')) : ph('Имя клиента');
+const mg = () => v('manager') ? esc(v('manager')) : ph('Твоё имя');
+const want = () => v('want') ? `«${esc(v('want'))}»` : ph('желаемый результат');
+
+/* ===== NAV ===== */
+function buildNav(){
+  const nav = document.getElementById('nav');
+  let html = '<div class="nav-g">Звонок</div>';
+  STEPS.forEach((s,i)=>{
+    if(i===10) html += '<div class="nav-g">Материалы</div>';
+    html += `<div class="step" data-go="${i}" tabindex="0"><span class="n">${i===10?'i':i+1}</span>${s}</div>`;
+  });
+  nav.innerHTML = html;
+  nav.querySelectorAll('.step').forEach(el=>{
+    el.addEventListener('click',()=>go(+el.dataset.go));
+    el.addEventListener('keydown',e=>{if(e.key==='Enter')go(+el.dataset.go)});
+  });
+}
+function go(i){
+  step = i;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',+p.dataset.step===i));
+  document.querySelectorAll('.step').forEach(el=>{
+    const n=+el.dataset.go;
+    el.classList.toggle('on',n===i);
+    el.classList.toggle('done',n<i && i<=TOTAL && n<TOTAL);
+  });
+  const shown = Math.min(i,TOTAL-1);
+  document.getElementById('progBar').style.width = (i>=TOTAL?100:Math.round(shown/(TOTAL-1)*100))+'%';
+  document.getElementById('progLbl').textContent = i>=TOTAL ? 'Справочник' : `Шаг ${i+1} из ${TOTAL}`;
+  document.getElementById('prevBtn').style.visibility = i===0?'hidden':'visible';
+  document.getElementById('nextBtn').style.display = i>=TOTAL-1?'none':'inline-block';
+  document.getElementById('nextBtn').textContent = i===TOTAL-2?'Закрытие →':'Далее →';
+  render();
+  window.scrollTo(0,0);
+}
+
+/* ===== РЕКОМЕНДАЦИЯ ===== */
+function recommend(){
+  const exp=v('exp'), inc=v('income'), goal=v('goal'), urg=v('urg'), p=allPains();
+  if(!exp && !inc && !goal && !p.length) return null;
+  let t=1; const why=[];
+  if(goal==='agency'){t=2; why.push('Цель — своё агентство: модуль по созданию агентства, чаты для найма и уроки Коляса по сборке команды есть только в ВИП');}
+  else if(inc==='500'||inc==='300'){t=2; why.push(`Цель по доходу ${MAP.income[inc]} — это уровень ВИП (возможный доход ~300 тыс.) и продвинутой программы до 500 тыс.`);}
+  else if(exp==='pro'){t=2; why.push('Уже работает таргетологом — базу знает, растить его будет личная работа с Колясом и продвинутый уровень');}
+  else if(goal==='extra' && inc==='100' && urg!=='hot' && !p.includes('clients') && !p.includes('fear')){t=0; why.push('Цель — доп. доход до 100 тыс. без спешки: Лайт закрывает теорию и практику без наставничества');}
+  else {
+    t=1;
+    if(p.includes('clients')) why.push('Главная боль — клиенты: в Кураторе есть биржа клиентов, а лучшие 3 получат клиентов от нас');
+    if(p.includes('fear')||exp==='zero') why.push('Старт с нуля / неуверенность — нужен куратор и разборы 4 раза в месяц, в одиночку на Лайте высок риск бросить');
+    if(p.includes('system')) why.push('Нет системы — разборы кейсов с куратором дают регулярную обратную связь');
+    if(inc==='200') why.push('Цель 100–200 тыс. совпадает с возможным доходом тарифа (~200 тыс.)');
+    if(goal==='switch') why.push('Хочет полностью уйти в профессию — нужна поддержка до первых клиентов, а не только уроки');
+    if(!why.length) why.push('Базовый выбор: наставничество + биржа клиентов дают максимальную вероятность дойти до первых денег');
+  }
+  if(urg==='hot' && t<2) why.push('Горячий — после ВИП-якоря можно пробовать закрыть на ступень выше');
+  return {t, why};
+}
+
+/* ===== RENDER ===== */
+function render(){
+  document.getElementById('tbName').textContent = v('name')||'—';
+  document.getElementById('tbUrg').textContent = v('urg')?MAP.urg[v('urg')]:'—';
+  const r = recommend();
+  document.getElementById('tbRec').textContent = r ? `${TARIFFS[r.t].short} · ${TARIFFS[r.t].price}` : 'заполни квалификацию';
+  if(chosenTariff===null && r) highlightTariff(r.t,false);
+
+  set('s_hello', `${nm()}, привет! Это ${mg()}, я из команды Дани.\nТы заполнил анкету предзаписи для участия в программе по таргету. Всё верно?`);
+  set('s_prog', `Отлично. Тогда я буквально задам несколько вопросов, чтобы понять твою ситуацию и задачу — и подобрать максимально подходящие для тебя условия. Договорились?`);
+
+  /* резюме вслух */
+  const pains = allPains().map(x=>MAP.pains[x]);
+  const L = [];
+  // кто он
+  let who = '';
+  if(v('occ')) who = PHR.occ[v('occ')] + (v('occNote')?` — ${Q(v('occNote'))}`:'');
+  if(v('exp')) who += (who? ', а ':'') + (who?PHR.exp[v('exp')]:PHR.exp[v('exp')].charAt(0).toUpperCase()+PHR.exp[v('exp')].slice(1));
+  if(who) L.push(who+'.');
+  if(v('whyNow')) L.push(`Анкету оставил сейчас, потому что ${Q(v('whyNow'))}.`);
+  // боли
+  const pp = allPains().map(x=>PHR.pains[x]);
+  if(pp.length) L.push(`Сейчас тебе мешает то, что ${joinRu(pp)}.`);
+  if(v('tried')) L.push(`Что уже пробовал сам: ${Q(v('tried'))}.`);
+  if(v('works')) L.push(`Что получается, а что нет: ${Q(v('works'))}.`);
+  // цель
+  let goal='';
+  if(v('income')) goal = 'Хочешь '+PHR.income[v('income')] + (v('goal')?' '+PHR.goal[v('goal')]:'');
+  else if(v('goal')) goal = 'Хочешь зарабатывать на таргете '+PHR.goal[v('goal')].replace(/^и /,'');
+  if(goal) L.push(goal+'.');
+  if(v('want')) L.push(`От программы ждёшь: ${Q(v('want'))}.`);
+  if(v('change')) L.push(`И для тебя это важно, потому что ${Q(v('change'))}.`);
+
+  set('s_resume', L.length
+    ? `${nm()}, давай проверю, правильно ли я тебя понял.\n\n${L.join('\n')}\n\nВсё так? Ничего не упустил?`
+    : `<span class="note">Заполни шаги 3–5 — резюме соберётся в живую речь.</span>`);
+
+  /* карточка */
+  const rows = [
+    ['Занятость', v('occ')?MAP.occ[v('occ')]+(v('occNote')?' — '+esc(v('occNote')):''):''],
+    ['Опыт в таргете', v('exp')?MAP.exp[v('exp')]:''],
+    ['Почему сейчас', esc(v('whyNow'))],
+    ['Хочет от программы', esc(v('want'))],
+    ['Боли', pains.join(', ')],
+    ['Что делает сейчас', esc(v('doing'))],
+    ['Что пробовал', esc(v('tried'))],
+    ['Получается / нет', esc(v('works'))],
+    ['Цель по доходу', v('income')?MAP.income[v('income')]:''],
+    ['Формат цели', v('goal')?MAP.goal[v('goal')]:''],
+    ['Что изменится', esc(v('change'))],
+    ['Срочность', v('urg')?MAP.urg[v('urg')]:'']
+  ].filter(x=>x[1]);
+  document.getElementById('sumBody').innerHTML = rows.length
+    ? rows.map(x=>`<div class="row"><div class="l">${x[0]}</div><div>${x[1]}</div></div>`).join('')
+    : '<div class="empty">Заполни шаги 3–5 — карточка соберётся сама.</div>';
+
+  const rb = document.getElementById('recBox');
+  if(r){
+    const T=TARIFFS[r.t];
+    rb.style.display='block';
+    rb.innerHTML = `<div class="k">Рекомендуемый тариф</div><div class="nm">${T.name}</div><div class="pr">${T.price} (было ${T.old}) · возможный доход ${T.income} · ${T.seats}</div><ul>${r.why.map(w=>`<li>${w}</li>`).join('')}</ul><div class="alt">Порядок на цене: якорь ВИП → ${r.t===2?'закрываешь на ВИП, запасной — Куратор':'переход на «'+T.name+'»'}${r.t===0?'':' → запасной вариант '+(r.t===2?'':'Лайт')}. Рассрочка — на любом тарифе.</div>`;
+  } else { rb.style.display='none'; }
+
+  renderPresentation(r);
+  renderPrice(r);
+  renderObjections();
+  renderClose(r);
+  bindCopy();
+}
+function set(id,html){const el=document.getElementById(id); if(el) el.innerHTML=html;}
+
+function card(label,html,cls=''){return `<div class="say ${cls}"><div class="lbl">${label}</div><button class="cp">Копировать</button><div class="tx">${html}</div></div>`;}
+
+function renderPresentation(r){
+  const box=document.getElementById('presBox');
+  const ps = allPains(), det = detectedPains();
+  let h='';
+
+  /* вход — опирается на его слова */
+  let entry = `Понял тебя, ${nm()}. Исходя из того, что ты рассказал, тебе наша программа точно подойдёт.\n\n`;
+  if(v('want')) entry += `Ты хочешь ${Q(v('want'))}`;
+  else if(v('income')) entry += `Ты хочешь ${PHR.income[v('income')]}`;
+  else entry += `Ты хочешь ${ph('цель клиента')}`;
+  if(ps.length) entry += `, а сейчас мешает то, что ${joinRu(ps.slice(0,3).map(x=>PHR.pains[x]))}`;
+  entry += `. Программа закрывает ровно это — давай покажу как.`;
+  if(v('whyNow')) entry += `\n\n<span class="note">↳ Зацепка — почему пришёл: ${Q(v('whyNow'))}. Вернись к этому, если начнёт «остывать».</span>`;
+  h += card('Вход в презентацию', entry);
+
+  if(det.length) h += `<div class="tip">Из заметок распознаны боли, которые не отмечены чипсами: <b>${det.map(x=>MAP.pains[x]).join(', ')}</b>. Блоки под них добавлены ниже.</div>`;
+  if(!ps.length) h += `<div class="tip">Отметь боли в «Точке А» или запиши их словами клиента — блоки презентации соберутся сами.</div>`;
+
+  /* блоки под боли */
+  ps.forEach(p=>{
+    let t = PAIN_PITCH[p].s;
+    if(p==='time' && v('occ')==='employee') t += `\n\nИ важно: начать можно, не увольняясь, — проходишь обучение в своём темпе параллельно с работой.`;
+    if(p==='salary' && v('income')) t += `\n\nТвоя цель — ${PHR.income[v('income')].replace('выйти на ','')}. Это реальная планка для таргетолога с 3–5 клиентами.`;
+    h += card(PAIN_PITCH[p].t + (det.includes(p)?' · из заметок':''), t+'\n\n<span class="note">↳ Вовлеки: «Как тебе такой подход?» / «Это то, чего не хватало?»</span>');
+  });
+
+  /* что пробовал → чем отличаемся */
+  if(v('tried')){
+    const fx = TRIED_FIX.find(f=>f.re.test(v('tried')));
+    h += card('Чем отличается от того, что уже пробовал', `Ты рассказывал, что уже пробовал: ${Q(v('tried'))}.\n\n${fx?fx.t:'Разница в том, что здесь ты не один с уроками: <mark>кураторы-практики, разборы твоих кейсов и путь до реальных клиентов</mark>. Учат люди из действующего агентства.'}\n\n<span class="note">↳ Вовлеки: «Согласись, именно этого тогда и не хватило?»</span>`);
+  }
+
+  /* что не получается → модуль */
+  if(v('works')){
+    const w=v('works'); const cut=w.search(/(,?\s(а|но)\s|не получ|не выход|не могу|не умею|сложно|проблем)/i);
+    const scope = cut>=0 ? w.slice(cut) : w;
+    const hits = WORKS_FIX.filter(f=>f.re.test(scope)).map(f=>f.t);
+    h += card('Закрываем то, что сейчас не получается', `Ты сказал: ${Q(v('works'))}.\n\n${hits.length?'Под это в программе есть '+joinRu(hits)+'.':'Под это в программе есть практика на реальных проектах и <mark>разборы 4 раза в месяц</mark> — разберём именно твою ситуацию.'}`);
+  }
+
+  /* если ничего не делает */
+  if(/ничего|никак|пока нет|не делаю/i.test(v('doing')))
+    h += card('Цена бездействия', `На вопрос, что сейчас делаешь для решения, ты ответил: ${Q(v('doing'))}. Честно: если ничего не менять, через полгода будет ровно та же ситуация. Разница только в том, что полгода пройдут.`,'amber');
+
+  /* доверие */
+  h += card('Кто ведёт — доверие',`Ведут программу Коляс и Даня Мясников.\n\nКоляс — сооснователь агентства digital.BUFF, практикующий таргетолог <mark>с доходом 500к+ с 2019 года</mark>. Даня — блогер на 700к+, сам в таргете вышел на 200к+ и обучил больше 3000 студентов.\n\nЗа агентством — <mark>550+ проектов</mark>, больше <mark>200 млн ₽</mark> рекламного бюджета клиентов и <mark>10 000+ выпускников</mark> «Таргетологии». Мы учим тому, на чём сами зарабатываем.\n\n<span class="note">↳ Вовлеки: «Смотрел контент Дани раньше?»</span>`);
+  h += card('Рынок — почему профессия нужна',`6 лет назад в России было ~4 млн бизнесов, сейчас ~7 млн. Конкуренция растёт, и каждому бизнесу нужна реклама. <mark>У толкового таргетолога клиенты стоят в очереди.</mark>`);
+
+  if(r){
+    const T=TARIFFS[r.t];
+    h += card(`Формат под клиента — ${T.short} (внутренне)`,`Под твою задачу лучше всего подходит формат «${T.name}»:\n\n${T.feats.map(f=>'— '+f).join('\n')}\n\nВозможный доход на этом формате — <mark>${T.income} в месяц</mark>.\n\n<span class="note">Цену здесь не называешь — она на следующем шаге, начиная с ВИП.</span>`);
+  }
+
+  /* будущее — его словами */
+  let fut = `По итогу у тебя: профессия, которая работает из любой точки мира, портфолио на реальных проектах и сертификат таргетолога в Яндекс, ВК и Авито.`;
+  if(v('income')) fut += `\n\nИ понятный путь, чтобы ${PHR.income[v('income')]}${v('goal')?' '+PHR.goal[v('goal')]:''}.`;
+  if(v('change')) fut += `\n\nА главное — то, ради чего ты это затеваешь: ${Q(v('change'))}.`;
+  h += card('Результат — картинка будущего', fut, 'green');
+  box.innerHTML=h;
+}
+
+function renderPrice(r){
+  set('s_preclose',`Как тебе в целом программа и то, что в неё входит? Согласись, подходит под твою задачу?`);
+  const V=TARIFFS[2];
+  set('s_anchor',`Смотри, максимальный формат — <b>Наставничество ВИП с Колясом и Даней</b>.\n\nЛичная работа с Колясом как с куратором, вся продвинутая программа до своего агентства, офлайн-встреча с Даней, биржа клиентов, 12 месяцев доступа. Лучшим 6 мы даём клиентов, а лучших 10 Коляс забирает в таргетологи своего агентства. Мест всего 10 — ${V.seats}.\n\nСтоимость — <mark>${V.price}</mark> вместо ${V.old}.\n\n<span class="note">[пауза 3–5 сек]</span>`);
+  if(r && r.t<2){
+    const T=TARIFFS[r.t];
+    set('s_down',`Понимаю. Смотри, если ВИП сейчас избыточен — под твою задачу отлично ложится «${T.name}».\n\n${r.t===1?'Разборы с куратором 4 раза в месяц, биржа клиентов, лучшие 3 получат клиентов, а топ-10 — в таргетологи агентства Коляса.':'Все модули теории и практики, 3 месяца доступа и сертификат.'}\n\nСтоимость — <mark>${T.price}</mark> вместо ${T.old}. И можно оформить в рассрочку.\n\nКак тебе такой вариант?`);
+  } else if(r && r.t===2){
+    set('s_down',`Если ВИП сейчас не по силам — есть «Наставничество с куратором»: разборы 4 раза в месяц, биржа клиентов, лучшие 3 получат клиентов. Стоимость — <mark>92 000 ₽</mark> вместо 184 000.\n\n<span class="note">Но сначала предложи рассрочку на ВИП — под его цели ВИП правильнее.</span>`);
+  } else set('s_down',`<span class="note">Заполни квалификацию — здесь появится переход на рекомендованный тариф.</span>`);
+
+  const box=document.getElementById('tars');
+  const rt = r?r.t:null;
+  box.innerHTML = TARIFFS.map(T=>`<div class="tar ${chosenTariff===T.id?'sel':''}" data-t="${T.id}" tabindex="0"><div class="seats">${T.seats}</div><h3>${T.name}${rt===T.id?' ★':''}</h3><div class="inc">Возможный доход ${T.income}</div><div class="old">${T.old}</div><div class="new">${T.price}</div><ul>${T.feats.map((f,i)=>`<li class="${T.hl.includes(i)?'hl':''}">${f}</li>`).join('')}</ul></div>`).join('');
+  box.querySelectorAll('.tar').forEach(el=>el.addEventListener('click',()=>{chosenTariff=+el.dataset.t;render();}));
+}
+function highlightTariff(){/* выбор по умолчанию = рекомендация, фиксируется кликом */}
+
+function renderObjections(){
+  const inc = v('income')?MAP.income[v('income')]:'';
+  const O = [
+    ['Дорого',`Понимаю. А относительно чего сейчас кажется дорого?\n\n<span class="note">[дай ответить]</span>\n\nСмотри: ты хочешь ${inc?'выйти на '+inc:want()}. Возможный доход на программе — от 100 тыс. в месяц уже через 2–3 месяца. То есть обучение окупается первым-вторым клиентом.\n\nИ платить всю сумму сразу не нужно — можно оформить рассрочку. Посмотрим, как это будет выглядеть по месяцам?`],
+    ['Мне нужно подумать',`Конечно. А что именно хочешь обдумать?\n\n<span class="note">[за «подумать» всегда стоит конкретная причина — цена, время, сомнение в себе. Выясни её и отработай соответствующей карточкой]</span>\n\nДавай разберём это прямо сейчас, пока я на связи, — чтобы ты решал с полной информацией, а не один на один с вопросами.`],
+    ['Нет денег',`Понял. Если вопрос со стоимостью решить — сама программа тебе подходит и ты бы хотел участвовать?\n\n<span class="note">[если «да»]</span>\n\nТогда есть рассрочка — платишь частями, а к моменту следующих платежей уже можешь работать с первыми клиентами. Оформим?`],
+    ['Нет времени',`Понимаю. А сколько времени в неделю ты реально можешь выделять?\n\n<span class="note">[дай ответить]</span>\n\nУроки на платформе — проходишь в своём темпе, в удобное время. Доступ сохраняется дольше, чем длится обучение, так что не выпадешь, если неделя загруженная. И смотри: ты как раз хочешь, чтобы время перестало быть проблемой, — удалёнка это и даёт.`],
+    ['Не уверен, что получится',`Это нормально, так думают почти все перед стартом.\n\nПоэтому ты не один: кураторы — действующие таргетологи с доходом 100–200 тыс., разборы твоих кейсов, общий чат. Через это прошли больше 10 000 студентов «Таргетологии».\n\nИ ты уже сделал первый шаг — оставил анкету. Дальше это вопрос системы и поддержки, а не таланта.`],
+    ['Нет опыта, я с нуля',`Программа как раз с нуля: первый модуль — «Погружаюсь в digital». Теория идёт до практики, и первого клиента ты ищешь уже с пониманием, что делать. Кураторы проверяют ДЗ и дают обратную связь — ошибки ловятся до того, как стоят денег.`],
+    ['Надо посоветоваться с мужем / женой',`Конечно, это правильно. Скажи, а сам ты как — тебе программа подходит?\n\n<span class="note">[если да]</span>\n\nТогда давай так: что, по-твоему, спросит ${'муж / жена'} в первую очередь? Разберём сейчас — чтобы у тебя были ответы. И договоримся, когда я наберу после разговора: сегодня вечером удобно?`],
+    ['Рынок перенасыщен таргетологами',`Смотри на цифры: 6 лет назад в России было ~4 млн бизнесов, сейчас ~7 млн. Бизнесов становится больше, конкуренция между ними жёстче — и реклама им нужна всё сильнее.\n\nПеренасыщен рынок слабых специалистов. Сильные забиты клиентами — поэтому в программе отдельный блок про поиск клиентов и личный бренд.`],
+    ['Почему вам верить?',`Справедливый вопрос. Коляс — сооснователь digital.BUFF: 550+ проектов, больше 200 млн ₽ рекламного бюджета, агентство — партнёр факультета интернет-маркетинга Синергии. Это не курс от людей, которые таргет видели на картинке.\n\nПлюс результаты студентов — могу прислать кейсы. Какой результат тебе было бы важно увидеть?`],
+    ['Я посмотрю другие курсы',`Конечно, сравнивать — нормально. А что для тебя главное при выборе, чего здесь не хватает?\n\n<span class="note">[дай ответить и закрой конкретный пункт]</span>\n\nОдно учти: места ограничены — ${TARIFFS[1].seats} на Кураторе, ${TARIFFS[2].seats} на ВИП. Пока сравниваешь, место может уйти.`]
+  ];
+  const box=document.getElementById('objBox');
+  const open = [...box.querySelectorAll('.obj.open')].map(e=>e.dataset.i);
+  box.innerHTML = O.map((o,i)=>`<div class="obj ${open.includes(String(i))?'open':''}" data-i="${i}"><div class="obj-h" tabindex="0">${o[0]}<span>▼</span></div><div class="obj-b"><div class="tx">${o[1]}</div><button class="cp">Копировать</button></div></div>`).join('');
+  box.querySelectorAll('.obj-h').forEach(h=>{
+    const t=()=>h.parentElement.classList.toggle('open');
+    h.addEventListener('click',t); h.addEventListener('keydown',e=>{if(e.key==='Enter')t()});
+  });
+}
+
+function renderClose(r){
+  const T = TARIFFS[chosenTariff!==null?chosenTariff:(r?r.t:1)];
+  const dl = {now:'прямо сейчас',tonight:'сегодня вечером',tomorrow:'завтра до 12:00',custom:ph('срок')}[v('deadline')||'now'];
+  const pay = v('pay')==='split'?'оформить рассрочку':'оплатить';
+  let c = `Отлично. Тогда сейчас пришлю тебе ссылку на ${v('pay')==='split'?'оформление рассрочки':'оплату'} тарифа «${T.name}» — ${T.price}.\n\n`;
+  c += v('deadline')==='now'
+    ? `Сможешь сделать это со мной прямо сейчас, чтобы я сразу мог подстраховать, если что-то пойдёт не так?`
+    : `Договорились: ${pay} сможешь ${dl}, верно?\n\nОбязательно напиши мне, как оплатишь — я сразу подтвержу место.`;
+  c += `\n\nОстались ли у тебя ещё какие-то вопросы? Если что — я на связи. Пока-пока!`;
+  set('s_close',c);
+
+  const crm = [
+    `Клиент: ${v('name')||'—'}`,
+    `Занятость: ${v('occ')?MAP.occ[v('occ')]:'—'}${v('occNote')?' ('+v('occNote')+')':''}`,
+    `Опыт: ${v('exp')?MAP.exp[v('exp')]:'—'}`,
+    `Боли: ${S.pains.map(x=>MAP.pains[x]).join(', ')||'—'}`,
+    `Цель: ${v('income')?MAP.income[v('income')]:'—'}${v('goal')?', '+MAP.goal[v('goal')]:''}`,
+    `Срочность: ${v('urg')?MAP.urg[v('urg')]:'—'}`,
+    `Рекомендация: ${r?TARIFFS[r.t].short:'—'} | Закрываем: ${T.short} ${T.price}`,
+    `Оплата: ${v('pay')==='split'?'рассрочка':'карта'}, срок — ${{now:'на звонке',tonight:'сегодня вечером',tomorrow:'завтра до 12:00',custom:'другой срок'}[v('deadline')||'now']}`
+  ].join('\n');
+  set('s_crm',esc(crm));
+}
+
+/* ===== COPY ===== */
+function bindCopy(){
+  document.querySelectorAll('.cp').forEach(b=>{
+    b.onclick = e=>{
+      e.stopPropagation();
+      const tx = b.parentElement.querySelector('.tx');
+      const clone = tx.cloneNode(true);
+      clone.querySelectorAll('.note').forEach(n=>n.remove());
+      const text = clone.innerText.replace(/\n{3,}/g,'\n\n').trim();
+      const done=()=>{b.textContent='✓ Скопировано';b.classList.add('ok');setTimeout(()=>{b.textContent='Копировать';b.classList.remove('ok')},1600)};
+      if(navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(()=>fallback(text,done)); else fallback(text,done);
+    };
+  });
+}
+function fallback(t,done){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}a.remove();}
+
+/* ===== INPUTS ===== */
+document.querySelectorAll('[data-f]').forEach(el=>{
+  const h=()=>{S[el.dataset.f]=el.value; render();};
+  el.addEventListener('input',h); el.addEventListener('change',h);
+});
+document.querySelectorAll('[data-chips]').forEach(g=>{
+  g.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+    c.classList.toggle('on');
+    S[g.dataset.chips]=[...g.querySelectorAll('.chip.on')].map(x=>x.dataset.v);
+    render();
+  }));
+});
+document.getElementById('prevBtn').onclick=()=>go(Math.max(0,step-1));
+document.getElementById('nextBtn').onclick=()=>go(Math.min(TOTAL-1,step+1));
+document.getElementById('resetBtn').onclick=()=>{
+  if(!confirm('Очистить всё для нового клиента?')) return;
+  const keep = S.manager;
+  Object.keys(S).forEach(k=>delete S[k]); S.pains=[]; S.pay='card'; S.deadline='now'; S.manager=keep;
+  document.querySelectorAll('[data-f]').forEach(el=>{ if(el.dataset.f!=='manager'){ el.tagName==='SELECT'?el.selectedIndex=0:el.value=''; } });
+  document.querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));
+  chosenTariff=null; go(0);
+};
+
+buildNav(); go(0);
+</script>
+</body>
+</html>
