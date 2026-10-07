@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:22:31.431Z",
+ "updatedAt": "2026-10-07T21:22:45.641Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -99,7 +99,7 @@
   {
    "id": "muym5s22im3ij",
    "order": 6,
-   "title": "Ссылки",
+   "title": "Рассрочка",
    "emoji": "💰",
    "type": "links",
    "items": []
