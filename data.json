@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-07T21:26:12.944Z",
+ "updatedAt": "2026-10-07T21:26:29.908Z",
  "tabs": [
   {
    "builtin": "targetology",
@@ -130,6 +130,13 @@
      "url": "https://target-student.ru/tarif-start",
      "desc": "Ссылка на гк: \nРассрочка Т-Банк, Сбер, Vanta, Сплит",
      "group": "Леша"
+    },
+    {
+     "id": "muymav6gudmak",
+     "title": "БАЗА - 49.900 руб.",
+     "url": "https://target-student.ru/tarif-base",
+     "desc": "Ссылка на гк: Полная оплата",
+     "group": ""
     }
    ]
   }
