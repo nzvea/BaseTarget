@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-09T12:04:25.830Z",
+ "updatedAt": "2026-10-09T14:09:19.635Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -208,6 +208,14 @@
    "title": "Скрипт сообщения",
    "type": "messages",
    "id": "p8qulcthdn2be80zfhty"
+  },
+  {
+   "id": "mv11kdzytn9v0",
+   "order": 9,
+   "title": "Сервисные сообщения",
+   "emoji": "✅",
+   "type": "messages",
+   "items": []
   }
  ]
 }
