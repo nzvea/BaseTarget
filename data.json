@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-09T11:46:18.318Z",
+ "updatedAt": "2026-10-09T11:47:04.408Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -148,6 +148,13 @@
      "url": "https://target-student.ru/tarif-premium",
      "desc": "Ссылка на гк: \nРассрочка Т-Банк, Сбер, Vanta, Сплит",
      "group": "Леша"
+    },
+    {
+     "id": "mv0whfafj0gz1",
+     "title": "Любой тариф",
+     "url": "https://targetology.education/target_danmyas#tarify",
+     "desc": "Гет Курс",
+     "group": "Даня"
     }
    ]
   },
