@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-09T11:47:25.643Z",
+ "updatedAt": "2026-10-09T11:47:27.874Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -136,6 +136,13 @@
      "group": "Даня"
     },
     {
+     "id": "mv0whfafj0gz1",
+     "title": "Любой тариф",
+     "url": "https://targetology.education/target_danmyas#tarify",
+     "desc": "Гет Курс",
+     "group": "Даня"
+    },
+    {
      "id": "muymav6gudmak",
      "title": "БАЗА - 49.900 руб.",
      "url": "https://target-student.ru/tarif-base",
@@ -148,13 +155,6 @@
      "url": "https://target-student.ru/tarif-premium",
      "desc": "Ссылка на гк: \nРассрочка Т-Банк, Сбер, Vanta, Сплит",
      "group": "Леша"
-    },
-    {
-     "id": "mv0whfafj0gz1",
-     "title": "Любой тариф",
-     "url": "https://targetology.education/target_danmyas#tarify",
-     "desc": "Гет Курс",
-     "group": "Даня"
     }
    ]
   },
