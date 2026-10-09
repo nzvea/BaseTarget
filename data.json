@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-09T11:47:30.135Z",
+ "updatedAt": "2026-10-09T11:47:33.528Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -115,6 +115,13 @@
      "group": "Даня"
     },
     {
+     "id": "mv0whfafj0gz1",
+     "title": "Любой тариф",
+     "url": "https://targetology.education/target_danmyas#tarify",
+     "desc": "Гет Курс",
+     "group": "Даня"
+    },
+    {
      "id": "muym88ik8szmu",
      "title": "ВИП - 129.900 руб.",
      "url": "https://targetology.ter-pay.ru/d/01a0b3a0-337c-7029-8fbf-877a159feb44",
@@ -127,13 +134,6 @@
      "url": "https://target-student.ru/tarif-start",
      "desc": "Ссылка на гк: \nРассрочка Т-Банк, Сбер, Vanta, Сплит",
      "group": "Леша"
-    },
-    {
-     "id": "mv0whfafj0gz1",
-     "title": "Любой тариф",
-     "url": "https://targetology.education/target_danmyas#tarify",
-     "desc": "Гет Курс",
-     "group": "Даня"
     },
     {
      "id": "muym905808qwh",
