@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-14T13:45:41.332Z",
+ "updatedAt": "2026-10-14T17:13:47.201Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -154,6 +154,13 @@
      "title": "ПРЕМИУМ - 98.100 руб.",
      "url": "https://target-student.ru/tarif-premium",
      "desc": "Ссылка на гк: \nРассрочка Т-Банк, Сбер, Vanta, Сплит",
+     "group": "Леша"
+    },
+    {
+     "id": "mv8dcu8gvudn6",
+     "title": "СТАРТ - 24.900 руб.",
+     "url": "https://pay.rrllc.ru/targetstudent-rf24900",
+     "desc": "Ссылка на РР",
      "group": "Леша"
     }
    ]
