@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-19T11:33:54.229Z",
+ "updatedAt": "2026-10-19T11:33:56.219Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -178,18 +178,18 @@
      "group": "Леша"
     },
     {
-     "id": "mv8ddq05qwsrs",
-     "title": "ПРЕМИУМ - 98.100 руб.",
-     "url": "https://pay.rrllc.ru/targetstudent-rf98100",
-     "desc": "Ссылка на РР",
-     "group": "Леша"
-    },
-    {
      "id": "mvf6etbaph6s2",
      "title": "Лайт - 84.000 руб.",
      "url": "https://targetology.ter-pay.ru/d/01a153ee-cfc3-7322-b804-33ccd269df0d",
      "desc": "Ter Pay",
      "group": "Даня"
+    },
+    {
+     "id": "mv8ddq05qwsrs",
+     "title": "ПРЕМИУМ - 98.100 руб.",
+     "url": "https://pay.rrllc.ru/targetstudent-rf98100",
+     "desc": "Ссылка на РР",
+     "group": "Леша"
     },
     {
      "id": "mvf6chcwsfyw6",
