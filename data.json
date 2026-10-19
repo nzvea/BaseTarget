@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-19T11:25:53.075Z",
+ "updatedAt": "2026-10-19T11:26:00.626Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -150,6 +150,13 @@
      "group": "Леша"
     },
     {
+     "id": "mvf64jodwenwm",
+     "title": "Профик - 94.000 руб.",
+     "url": "https://targetology.education/target_danmyas/tutor#tarify",
+     "desc": "Гет Курс",
+     "group": "Даня"
+    },
+    {
      "id": "muymbg4o2f2xt",
      "title": "ПРЕМИУМ - 98.100 руб.",
      "url": "https://target-student.ru/tarif-premium",
@@ -176,13 +183,6 @@
      "url": "https://pay.rrllc.ru/targetstudent-rf98100",
      "desc": "Ссылка на РР",
      "group": "Леша"
-    },
-    {
-     "id": "mvf64jodwenwm",
-     "title": "Профик - 94.000 руб.",
-     "url": "https://targetology.education/target_danmyas/tutor#tarify",
-     "desc": "Гет Курс",
-     "group": "Даня"
     }
    ]
   },
