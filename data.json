@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-19T11:31:56.440Z",
+ "updatedAt": "2026-10-19T11:32:01.819Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -115,17 +115,17 @@
      "group": "Даня"
     },
     {
-     "id": "mv0whfafj0gz1",
-     "title": "ВИП - 129.000 руб",
-     "url": "https://targetology.education/target_danmyas/vip#tarify",
-     "desc": "Гет Курс",
-     "group": "Даня"
-    },
-    {
      "id": "muym88ik8szmu",
      "title": "ВИП - 129.900 руб.",
      "url": "https://targetology.ter-pay.ru/d/01a0b3a0-337c-7029-8fbf-877a159feb44",
      "desc": "Ter Pay",
+     "group": "Даня"
+    },
+    {
+     "id": "mv0whfafj0gz1",
+     "title": "ВИП - 129.000 руб",
+     "url": "https://targetology.education/target_danmyas/vip#tarify",
+     "desc": "Гет Курс",
      "group": "Даня"
     },
     {
