@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-19T11:32:01.819Z",
+ "updatedAt": "2026-10-19T11:32:05.349Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -122,13 +122,6 @@
      "group": "Даня"
     },
     {
-     "id": "mv0whfafj0gz1",
-     "title": "ВИП - 129.000 руб",
-     "url": "https://targetology.education/target_danmyas/vip#tarify",
-     "desc": "Гет Курс",
-     "group": "Даня"
-    },
-    {
      "id": "muymai3jbpq15",
      "title": "СТАРТ - 24.900 руб.",
      "url": "https://target-student.ru/tarif-start",
@@ -140,6 +133,13 @@
      "title": "Профик - 92.000 руб.",
      "url": "https://targetology.ter-pay.ru/d/01a0afaa-842a-71e2-a56d-b5bd5c1b42d2",
      "desc": "Ter Pay",
+     "group": "Даня"
+    },
+    {
+     "id": "mv0whfafj0gz1",
+     "title": "ВИП - 129.000 руб",
+     "url": "https://targetology.education/target_danmyas/vip#tarify",
+     "desc": "Гет Курс",
      "group": "Даня"
     },
     {
