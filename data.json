@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-19T11:33:15.572Z",
+ "updatedAt": "2026-10-19T11:33:45.249Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -189,6 +189,13 @@
      "title": "Лайт - 84.000 руб.",
      "url": "https://targetology.education/target_danmyas/lite#tarify",
      "desc": "Гет Курс",
+     "group": "Даня"
+    },
+    {
+     "id": "mvf6etbaph6s2",
+     "title": "Лайт - 84.000 руб.",
+     "url": "https://targetology.ter-pay.ru/d/01a153ee-cfc3-7322-b804-33ccd269df0d",
+     "desc": "Ter Pay",
      "group": "Даня"
     }
    ]
