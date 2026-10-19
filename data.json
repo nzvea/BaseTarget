@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-19T11:33:58.817Z",
+ "updatedAt": "2026-10-19T11:34:02.143Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -164,18 +164,18 @@
      "group": "Леша"
     },
     {
-     "id": "mvf6etbaph6s2",
-     "title": "Лайт - 84.000 руб.",
-     "url": "https://targetology.ter-pay.ru/d/01a153ee-cfc3-7322-b804-33ccd269df0d",
-     "desc": "Ter Pay",
-     "group": "Даня"
-    },
-    {
      "id": "mv8dcu8gvudn6",
      "title": "СТАРТ - 24.900 руб.",
      "url": "https://pay.rrllc.ru/targetstudent-rf24900",
      "desc": "Ссылка на РР",
      "group": "Леша"
+    },
+    {
+     "id": "mvf6etbaph6s2",
+     "title": "Лайт - 84.000 руб.",
+     "url": "https://targetology.ter-pay.ru/d/01a153ee-cfc3-7322-b804-33ccd269df0d",
+     "desc": "Ter Pay",
+     "group": "Даня"
     },
     {
      "id": "mv8ddaxb5fjqw",
