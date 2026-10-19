@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-19T11:26:00.626Z",
+ "updatedAt": "2026-10-19T11:31:56.440Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -183,6 +183,13 @@
      "url": "https://pay.rrllc.ru/targetstudent-rf98100",
      "desc": "Ссылка на РР",
      "group": "Леша"
+    },
+    {
+     "id": "mvf6chcwsfyw6",
+     "title": "Лайт - 84.000 руб.",
+     "url": "https://targetology.education/target_danmyas/lite#tarify",
+     "desc": "Гет Курс",
+     "group": "Даня"
     }
    ]
   },
