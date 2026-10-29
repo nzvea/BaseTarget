@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-29T09:14:03.887Z",
+ "updatedAt": "2026-10-29T09:14:06.593Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -143,17 +143,17 @@
      "group": "Даня"
     },
     {
-     "id": "mv0whfafj0gz1",
-     "title": "ВИП - 129.000 руб",
-     "url": "https://targetology.education/target_danmyas/vip#tarify",
-     "desc": "Гет Курс",
-     "group": "Даня"
-    },
-    {
      "id": "mvtbtjc7j447u",
      "title": "Любой тариф",
      "url": "https://pay.rrllc.ru/target-danmyas-1",
      "desc": "Ресурс развития. Казахстан, Беларусь, Кыргызстан, Россия",
+     "group": "Даня"
+    },
+    {
+     "id": "mv0whfafj0gz1",
+     "title": "ВИП - 129.000 руб",
+     "url": "https://targetology.education/target_danmyas/vip#tarify",
+     "desc": "Гет Курс",
      "group": "Даня"
     },
     {
