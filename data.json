@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-29T09:13:59.252Z",
+ "updatedAt": "2026-10-29T09:14:02.298Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -164,6 +164,13 @@
      "group": "Даня"
     },
     {
+     "id": "mvtbtjc7j447u",
+     "title": "Любой тариф",
+     "url": "https://pay.rrllc.ru/target-danmyas-1",
+     "desc": "Ресурс развития. Казахстан, Беларусь, Кыргызстан, Россия",
+     "group": "Даня"
+    },
+    {
      "id": "muymbg4o2f2xt",
      "title": "ПРЕМИУМ - 98.100 руб.",
      "url": "https://target-student.ru/tarif-premium",
@@ -190,13 +197,6 @@
      "url": "https://pay.rrllc.ru/targetstudent-rf98100",
      "desc": "Ссылка на РР",
      "group": "Леша"
-    },
-    {
-     "id": "mvtbtjc7j447u",
-     "title": "Любой тариф",
-     "url": "https://pay.rrllc.ru/target-danmyas-1",
-     "desc": "Ресурс развития. Казахстан, Беларусь, Кыргызстан, Россия",
-     "group": "Даня"
     },
     {
      "id": "mvf6chcwsfyw6",
