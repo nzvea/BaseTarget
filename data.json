@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-29T09:14:06.593Z",
+ "updatedAt": "2026-10-29T09:14:08.472Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -136,17 +136,17 @@
      "group": "Даня"
     },
     {
-     "id": "mvf6etbaph6s2",
-     "title": "Лайт - 84.000 руб.",
-     "url": "https://targetology.ter-pay.ru/d/01a153ee-cfc3-7322-b804-33ccd269df0d",
-     "desc": "Ter Pay",
-     "group": "Даня"
-    },
-    {
      "id": "mvtbtjc7j447u",
      "title": "Любой тариф",
      "url": "https://pay.rrllc.ru/target-danmyas-1",
      "desc": "Ресурс развития. Казахстан, Беларусь, Кыргызстан, Россия",
+     "group": "Даня"
+    },
+    {
+     "id": "mvf6etbaph6s2",
+     "title": "Лайт - 84.000 руб.",
+     "url": "https://targetology.ter-pay.ru/d/01a153ee-cfc3-7322-b804-33ccd269df0d",
+     "desc": "Ter Pay",
      "group": "Даня"
     },
     {
