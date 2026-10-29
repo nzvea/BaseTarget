@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-19T14:24:32.574Z",
+ "updatedAt": "2026-10-29T09:13:56.704Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -196,6 +196,13 @@
      "title": "Лайт - 84.000 руб.",
      "url": "https://targetology.education/target_danmyas/lite#tarify",
      "desc": "Гет Курс",
+     "group": "Даня"
+    },
+    {
+     "id": "mvtbtjc7j447u",
+     "title": "Любой тариф",
+     "url": "https://pay.rrllc.ru/target-danmyas-1",
+     "desc": "Ресурс развития. Казахстан, Беларусь, Кыргызстан, Россия",
      "group": "Даня"
     }
    ]
