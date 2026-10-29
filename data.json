@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-29T09:14:02.298Z",
+ "updatedAt": "2026-10-29T09:14:03.887Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -150,6 +150,13 @@
      "group": "Даня"
     },
     {
+     "id": "mvtbtjc7j447u",
+     "title": "Любой тариф",
+     "url": "https://pay.rrllc.ru/target-danmyas-1",
+     "desc": "Ресурс развития. Казахстан, Беларусь, Кыргызстан, Россия",
+     "group": "Даня"
+    },
+    {
      "id": "muymav6gudmak",
      "title": "БАЗА - 49.900 руб.",
      "url": "https://target-student.ru/tarif-base",
@@ -161,13 +168,6 @@
      "title": "Профик - 94.000 руб.",
      "url": "https://targetology.education/target_danmyas/tutor#tarify",
      "desc": "Гет Курс",
-     "group": "Даня"
-    },
-    {
-     "id": "mvtbtjc7j447u",
-     "title": "Любой тариф",
-     "url": "https://pay.rrllc.ru/target-danmyas-1",
-     "desc": "Ресурс развития. Казахстан, Беларусь, Кыргызстан, Россия",
      "group": "Даня"
     },
     {
