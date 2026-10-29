@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-29T09:14:08.472Z",
+ "updatedAt": "2026-10-29T09:14:10.125Z",
  "tabs": [
   {
    "id": "muymje7q1dhug",
@@ -122,6 +122,13 @@
      "group": "Даня"
     },
     {
+     "id": "mvtbtjc7j447u",
+     "title": "Любой тариф",
+     "url": "https://pay.rrllc.ru/target-danmyas-1",
+     "desc": "Ресурс развития. Казахстан, Беларусь, Кыргызстан, Россия",
+     "group": "Даня"
+    },
+    {
      "id": "muymai3jbpq15",
      "title": "СТАРТ - 24.900 руб.",
      "url": "https://target-student.ru/tarif-start",
@@ -133,13 +140,6 @@
      "title": "Профик - 94.000 руб.",
      "url": "https://targetology.ter-pay.ru/d/01a153ee-81ec-7123-bb03-9b03e59bb08d",
      "desc": "Ter Pay",
-     "group": "Даня"
-    },
-    {
-     "id": "mvtbtjc7j447u",
-     "title": "Любой тариф",
-     "url": "https://pay.rrllc.ru/target-danmyas-1",
-     "desc": "Ресурс развития. Казахстан, Беларусь, Кыргызстан, Россия",
      "group": "Даня"
     },
     {
